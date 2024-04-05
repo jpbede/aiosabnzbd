@@ -22,7 +22,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @dataclass(kw_only=True)
-class SABnzbd:
+class Sabnzbd:
     """SABnzbd API client."""
 
     host: str

@@ -1,12 +1,15 @@
-"""Tests for the SABnzbd client."""
+"""Tests for the Sabnzbd client."""
 from aioresponses import aioresponses
 import pytest
 from syrupy.assertion import SnapshotAssertion
 
-from aiosabnzbd import SABnzbd
-from aiosabnzbd.const import QueueOperationCommand
-from aiosabnzbd.exceptions import SabnzbdConnectionError, SabnzbdConnectionTimeoutError
-from aiosabnzbd.models.status import StatusResponse
+from aiosabnzbd import (
+    QueueOperationCommand,
+    Sabnzbd,
+    SabnzbdConnectionError,
+    SabnzbdConnectionTimeoutError,
+    StatusResponse,
+)
 
 from . import load_fixture
 
@@ -20,14 +23,14 @@ async def test_json_request_without_session(
         body=load_fixture("queue.json"),
     )
 
-    async with SABnzbd(host="localhost", port=8080, api_key="ab123") as c:
+    async with Sabnzbd(host="localhost", port=8080, api_key="ab123") as c:
         assert await c.queue() == snapshot
         assert c.session is not None
 
     assert c.session.closed
 
 
-async def test_catch_connection_error(client: SABnzbd, responses: aioresponses) -> None:
+async def test_catch_connection_error(client: Sabnzbd, responses: aioresponses) -> None:
     """Test JSON response is handled correctly with given session."""
     responses.get(
         "http://localhost:8080/api?apikey=abc123&output=json&mode=queue",
@@ -40,7 +43,7 @@ async def test_catch_connection_error(client: SABnzbd, responses: aioresponses) 
 
 
 async def test_timeout(
-    client: SABnzbd,
+    client: Sabnzbd,
     responses: aioresponses,
 ) -> None:
     """Test request timeout."""
@@ -53,7 +56,7 @@ async def test_timeout(
 
 
 async def test_queue(
-    client: SABnzbd, responses: aioresponses, snapshot: SnapshotAssertion
+    client: Sabnzbd, responses: aioresponses, snapshot: SnapshotAssertion
 ) -> None:
     """Test getting the queue."""
     responses.get(
@@ -64,7 +67,7 @@ async def test_queue(
     assert snapshot == await client.queue()
 
 
-async def test_operate_queue(client: SABnzbd, responses: aioresponses) -> None:
+async def test_operate_queue(client: Sabnzbd, responses: aioresponses) -> None:
     """Test operating the queue."""
     responses.get(
         "http://localhost:8080/api?apikey=abc123&output=json&mode=pause",
