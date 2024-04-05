@@ -26,7 +26,6 @@ aiohttp = ">=3.8.0"
 mashumaro = ">=3.11"
 orjson = ">=3.9.8"
 yarl = ">=1.7.0"
-pyright = "^1.1.357"
 
 [tool.poetry.group.dev.dependencies]
 codespell = "2.2.6"
