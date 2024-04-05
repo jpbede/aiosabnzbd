@@ -1,5 +1,5 @@
 """Models for the SABnzbd queue API."""
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from mashumaro.mixins.orjson import DataClassORJSONMixin
 
@@ -19,10 +19,10 @@ class Slot:
     script: str
     direct_unpack: str
     mb: str
-    mbleft: str
-    mbmissing: str
+    mb_left: str = field(metadata={"alias": "mbleft"})
+    mb_missing: str = field(metadata={"alias": "mbmissing"})
     size: str
-    sizeleft: str
+    size_left: str = field(metadata={"alias": "sizeleft"})
     filename: str
     labels: list[str]
     priority: str
@@ -30,7 +30,7 @@ class Slot:
     timeleft: str
     percentage: str
     nzo_id: str
-    unpackopts: str
+    unpack_opts: str = field(metadata={"alias": "unpackopts"})
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
@@ -39,7 +39,7 @@ class Queue(DataClassORJSONMixin):
 
     status: QueueStatus
     speedlimit: str
-    speedlimit_abs: str
+    speedlimit_absolut: str = field(metadata={"alias": "speedlimit_abs"})
     paused: bool
     noofslots_total: int
     noofslots: int
@@ -47,16 +47,16 @@ class Queue(DataClassORJSONMixin):
     start: int
     timeleft: str
     speed: str
-    kbpersec: str
+    kb_per_sec: str = field(metadata={"alias": "kbpersec"})
     size: str
-    sizeleft: str
-    mb: str
-    mbleft: str
+    size_left: str = field(metadata={"alias": "sizeleft"})
+    megabyte: str = field(metadata={"alias": "mb"})
+    megabyte_left: str = field(metadata={"alias": "mbleft"})
     slots: list[Slot]
     diskspace1: str
     diskspace2: str
-    diskspacetotal1: str
-    diskspacetotal2: str
+    diskspace_total1: str = field(metadata={"alias": "diskspacetotal1"})
+    diskspace_total2: str = field(metadata={"alias": "diskspacetotal2"})
     diskspace1_norm: str
     diskspace2_norm: str
     have_warnings: str
@@ -64,9 +64,9 @@ class Queue(DataClassORJSONMixin):
     left_quota: str
     version: str
     finish: int
-    cache_art: str
+    cache_article: str = field(metadata={"alias": "cache_art"})
     cache_size: str
-    finishaction: str
+    finish_action: str = field(metadata={"alias": "finishaction"})
     paused_all: bool
     quota: str
     have_quota: bool
