@@ -127,7 +127,7 @@ SOFTWARE.
 
 [build-shield]: https://github.com/jpbede/aiosabnzbd/actions/workflows/release.yml/badge.svg
 [build]: https://github.com/jpbede/aiosabnzbd/actions
-[codecov-shield]: https://codecov.io/gh/jpbede/aiosabnzbd/branch/master/graph/badge.svg
+[codecov-shield]: https://codecov.io/gh/jpbede/aiosabnzbd/branch/main/graph/badge.svg
 [codecov]: https://codecov.io/gh/jpbede/aiosabnzbd
 [commits-shield]: https://img.shields.io/github/commit-activity/y/jpbede/aiosabnzbd.svg
 [commits]: https://github.com/jpbede/aiosabnzbd/commits/main
