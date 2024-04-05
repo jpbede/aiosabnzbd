@@ -23,7 +23,24 @@ pip install aiosabnzbd
 
 ## Usage
 
-TODO
+```python
+import asyncio
+
+from aiosabnzbd import SABnzbd
+
+
+async def main() -> None:
+    """Run the example."""
+    async with SABnzbd(api_key="abc123", host="localhost", port=8080) as client:
+        response = await client.queue()
+
+        print(f"Time left for downloads: {response.timeleft}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
+```
 
 ## Changelog & Releases
 
