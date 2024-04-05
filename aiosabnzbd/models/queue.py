@@ -1,8 +1,10 @@
+"""Models for the SABnzbd queue API."""
 from dataclasses import dataclass
 
 from mashumaro.mixins.orjson import DataClassORJSONMixin
 
-from ..const import QueueOperationCommand, QueueStatus
+from aiosabnzbd.const import QueueOperationCommand, QueueStatus
+
 from .base import SabnzbdRequest
 
 

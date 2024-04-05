@@ -5,16 +5,18 @@ from __future__ import annotations
 from dataclasses import dataclass
 import logging
 import socket
-from typing import Self
+from typing import TYPE_CHECKING, Self
 
 from aiohttp import ClientError, ClientSession
 from yarl import URL
 
-from .const import QueueOperationCommand
 from .exceptions import SabnzbdConnectionError, SabnzbdConnectionTimeoutError
-from .models.base import SabnzbdRequest
 from .models.queue import Queue, QueueOperationRequest, QueueRequest, QueueResponse
 from .models.status import StatusResponse
+
+if TYPE_CHECKING:
+    from .const import QueueOperationCommand
+    from .models.base import SabnzbdRequest
 
 _LOGGER = logging.getLogger(__name__)
 
