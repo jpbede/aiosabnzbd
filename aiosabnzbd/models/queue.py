@@ -1,4 +1,5 @@
 """Models for the SABnzbd queue API."""
+
 from dataclasses import dataclass, field
 
 from mashumaro.mixins.orjson import DataClassORJSONMixin

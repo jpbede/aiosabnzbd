@@ -1,4 +1,5 @@
 """Tests for the Sabnzbd client."""
+
 from aioresponses import aioresponses
 import pytest
 from syrupy.assertion import SnapshotAssertion
