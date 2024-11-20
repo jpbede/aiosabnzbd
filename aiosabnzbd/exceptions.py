@@ -11,3 +11,11 @@ class SabnzbdConnectionError(SabnzbdError):
 
 class SabnzbdConnectionTimeoutError(SabnzbdError):
     """Timeout occurred while connecting to the SABnzbd API."""
+
+
+class SabnzbdInvalidAPIKeyError(SabnzbdError):
+    """Given API Key is invalid."""
+
+
+class SabnzbdMissingAPIKeyError(SabnzbdError):
+    """API Key is missing."""
