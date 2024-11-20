@@ -1,4 +1,5 @@
 """Models for operational APIs."""
+
 from dataclasses import dataclass
 
 from mashumaro.mixins.orjson import DataClassORJSONMixin

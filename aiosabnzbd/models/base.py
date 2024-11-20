@@ -1,4 +1,5 @@
 """Base models for aiosabnzbd."""
+
 from dataclasses import dataclass
 
 
