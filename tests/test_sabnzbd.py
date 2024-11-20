@@ -11,6 +11,7 @@ from aiosabnzbd import (
     SabnzbdConnectionTimeoutError,
     StatusResponse,
 )
+from aiosabnzbd.exceptions import SabnzbdInvalidAPIKeyError, SabnzbdMissingAPIKeyError
 
 from . import load_fixture
 
@@ -78,3 +79,25 @@ async def test_operate_queue(client: Sabnzbd, responses: aioresponses) -> None:
     response = await client.operate_queue(command=QueueOperationCommand.PAUSE)
 
     assert response == StatusResponse(status=True)
+
+
+async def test_missing_api_key(client: Sabnzbd, responses: aioresponses) -> None:
+    """Test missing API key."""
+    responses.get(
+        "http://localhost:8080/api?apikey=abc123&output=json&mode=queue",
+        body="API Key Required",
+    )
+
+    with pytest.raises(SabnzbdMissingAPIKeyError):
+        await client.queue()
+
+
+async def test_invalid_api_key(client: Sabnzbd, responses: aioresponses) -> None:
+    """Test invalid API key."""
+    responses.get(
+        "http://localhost:8080/api?apikey=abc123&output=json&mode=queue",
+        body="API Key Incorrect",
+    )
+
+    with pytest.raises(SabnzbdInvalidAPIKeyError):
+        await client.queue()

@@ -10,7 +10,12 @@ from typing import TYPE_CHECKING, Self
 from aiohttp import ClientError, ClientSession
 from yarl import URL
 
-from .exceptions import SabnzbdConnectionError, SabnzbdConnectionTimeoutError
+from .exceptions import (
+    SabnzbdConnectionError,
+    SabnzbdConnectionTimeoutError,
+    SabnzbdInvalidAPIKeyError,
+    SabnzbdMissingAPIKeyError,
+)
 from .models.queue import Queue, QueueOperationRequest, QueueRequest, QueueResponse
 from .models.status import StatusResponse
 
@@ -34,7 +39,7 @@ class Sabnzbd:
     _close_session: bool = False
 
     def __post_init__(self) -> None:
-        """Initialize the Tailwind object."""
+        """Initialize the SABnzbd class."""
         self._build_url = URL.build(
             scheme="http",
             host=self.host,
@@ -74,6 +79,14 @@ class Sabnzbd:
             msg = "Error occurred while communicating to the SABnzbd API"
             raise SabnzbdConnectionError(msg) from exception
 
+        if response_text == "API Key Incorrect":
+            msg = "API Key is invalid"
+            raise SabnzbdInvalidAPIKeyError(msg)
+
+        if response_text == "API Key Required":
+            msg = "API Key is required"
+            raise SabnzbdMissingAPIKeyError(msg)
+
         _LOGGER.debug(
             "Got response with status %s and body: %s",
             response.status,
@@ -85,7 +98,7 @@ class Sabnzbd:
     async def queue(
         self,
     ) -> Queue:
-        """Get carbon intensity."""
+        """Get current queue status."""
         result = await self._request(
             QueueRequest(),
         )
