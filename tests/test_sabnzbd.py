@@ -128,3 +128,13 @@ async def test_history(
     )
 
     assert snapshot == await client.history()
+
+
+async def test_version(client: SABnzbdClient, responses: aioresponses) -> None:
+    """Test getting the version."""
+    responses.get(
+        "http://localhost:8080/api?apikey=abc123&output=json&mode=version",
+        body='{"version": "3.0.0"}',
+    )
+
+    assert await client.version() == "3.0.0"
