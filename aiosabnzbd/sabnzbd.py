@@ -16,6 +16,7 @@ from .exceptions import (
     SABnzbdInvalidAPIKeyError,
     SABnzbdMissingAPIKeyError,
 )
+from .models import History, HistoryResponse
 from .models.base import SABnzbdRequest
 from .models.queue import Queue, QueueResponse
 from .models.status import StatusResponse
@@ -86,6 +87,18 @@ class SABnzbdClient:
         )
 
         return response_text
+
+    async def history(
+        self,
+    ) -> History:
+        """Get current history."""
+        result = await self._request(
+            SABnzbdRequest(
+                mode="history",
+            ),
+        )
+
+        return HistoryResponse.from_json(result).history
 
     async def queue(
         self,
