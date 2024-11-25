@@ -11,12 +11,12 @@ from aiohttp import ClientError, ClientSession
 from yarl import URL
 
 from .exceptions import (
-    SabnzbdConnectionError,
-    SabnzbdConnectionTimeoutError,
-    SabnzbdInvalidAPIKeyError,
-    SabnzbdMissingAPIKeyError,
+    SABnzbdConnectionError,
+    SABnzbdConnectionTimeoutError,
+    SABnzbdInvalidAPIKeyError,
+    SABnzbdMissingAPIKeyError,
 )
-from .models.base import SabnzbdRequest
+from .models.base import SABnzbdRequest
 from .models.queue import Queue, QueueResponse
 from .models.status import StatusResponse
 
@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 @dataclass(kw_only=True)
-class Sabnzbd:
+class SABnzbdClient:
     """SABnzbd API client."""
 
     host: str
@@ -47,7 +47,7 @@ class Sabnzbd:
             path=self.path,
         )
 
-    async def _request(self, request: SabnzbdRequest) -> str:
+    async def _request(self, request: SABnzbdRequest) -> str:
         """Execute a GET request against the API."""
         if self.session is None:
             self.session = ClientSession()
@@ -71,21 +71,21 @@ class Sabnzbd:
                 response_text = await response.text()
         except TimeoutError as exception:
             msg = "Timeout occurred while connecting to the SABnzbd API"
-            raise SabnzbdConnectionTimeoutError(msg) from exception
+            raise SABnzbdConnectionTimeoutError(msg) from exception
         except (
             ClientError,
             socket.gaierror,
         ) as exception:
             msg = "Error occurred while communicating to the SABnzbd API"
-            raise SabnzbdConnectionError(msg) from exception
+            raise SABnzbdConnectionError(msg) from exception
 
         if response_text == "API Key Incorrect":
             msg = "API Key is invalid"
-            raise SabnzbdInvalidAPIKeyError(msg)
+            raise SABnzbdInvalidAPIKeyError(msg)
 
         if response_text == "API Key Required":
             msg = "API Key is required"
-            raise SabnzbdMissingAPIKeyError(msg)
+            raise SABnzbdMissingAPIKeyError(msg)
 
         _LOGGER.debug(
             "Got response with status %s and body: %s",
@@ -100,7 +100,7 @@ class Sabnzbd:
     ) -> Queue:
         """Get current queue status."""
         result = await self._request(
-            SabnzbdRequest(
+            SABnzbdRequest(
                 mode="queue",
             ),
         )
@@ -110,7 +110,7 @@ class Sabnzbd:
     async def operate_queue(self, *, command: QueueOperationCommand) -> StatusResponse:
         """Operate the queue."""
         result = await self._request(
-            SabnzbdRequest(mode=command),
+            SABnzbdRequest(mode=command),
         )
         return StatusResponse.from_json(result)
 

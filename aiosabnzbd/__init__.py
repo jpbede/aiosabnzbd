@@ -2,19 +2,23 @@
 
 from .const import QueueOperationCommand, QueueStatus
 from .exceptions import (
-    SabnzbdConnectionError,
-    SabnzbdConnectionTimeoutError,
-    SabnzbdError,
+    SABnzbdConnectionError,
+    SABnzbdConnectionTimeoutError,
+    SABnzbdError,
+    SABnzbdInvalidAPIKeyError,
+    SABnzbdMissingAPIKeyError,
 )
 from .models.queue import Queue, QueueResponse, Slot
 from .models.status import StatusResponse
-from .sabnzbd import Sabnzbd
+from .sabnzbd import SABnzbdClient
 
 __all__ = [
-    "Sabnzbd",
-    "SabnzbdError",
-    "SabnzbdConnectionError",
-    "SabnzbdConnectionTimeoutError",
+    "SABnzbdClient",
+    "SABnzbdError",
+    "SABnzbdConnectionError",
+    "SABnzbdConnectionTimeoutError",
+    "SABnzbdInvalidAPIKeyError",
+    "SABnzbdMissingAPIKeyError",
     "QueueOperationCommand",
     "QueueStatus",
     "Queue",

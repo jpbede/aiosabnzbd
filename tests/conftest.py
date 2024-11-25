@@ -6,7 +6,7 @@ import aiohttp
 from aioresponses import aioresponses
 import pytest
 
-from aiosabnzbd import Sabnzbd
+from aiosabnzbd import SABnzbdClient
 
 
 @pytest.fixture(name="responses")
@@ -17,11 +17,11 @@ def aioresponses_fixture() -> Generator[aioresponses, None, None]:
 
 
 @pytest.fixture(name="client")
-async def client() -> AsyncGenerator[Sabnzbd, None]:
+async def client() -> AsyncGenerator[SABnzbdClient, None]:
     """Return a Sabnzbd client."""
     async with (
         aiohttp.ClientSession() as session,
-        Sabnzbd(
+        SABnzbdClient(
             host="localhost",
             port=8080,
             api_key="abc123",
