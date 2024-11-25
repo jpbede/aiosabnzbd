@@ -10,3 +10,10 @@ class StatusResponse(DataClassORJSONMixin):
     """Response from the API."""
 
     status: bool
+
+
+@dataclass(frozen=True, kw_only=True, slots=True)
+class VersionResponse(DataClassORJSONMixin):
+    """Version response from the API."""
+
+    version: str

@@ -19,7 +19,7 @@ from .exceptions import (
 from .models import History, HistoryResponse
 from .models.base import SABnzbdRequest
 from .models.queue import Queue, QueueResponse
-from .models.status import StatusResponse
+from .models.status import StatusResponse, VersionResponse
 
 if TYPE_CHECKING:
     from .const import QueueOperationCommand
@@ -129,6 +129,16 @@ class SABnzbdClient:
             ),
         )
         return StatusResponse.from_json(result)
+
+    async def version(self) -> str:
+        """Get the version of the SABnzbd instance."""
+        result = await self._request(
+            SABnzbdRequest(
+                mode="version",
+            ),
+        )
+
+        return VersionResponse.from_json(result).version
 
     async def close(self) -> None:
         """Close open client session."""

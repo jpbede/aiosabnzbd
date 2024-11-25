@@ -3,7 +3,7 @@
 from .base import SABnzbdRequest
 from .history import History, HistoryResponse
 from .queue import Queue, QueueResponse, Slot
-from .status import StatusResponse
+from .status import StatusResponse, VersionResponse
 
 __all__ = [
     "History",
@@ -13,4 +13,5 @@ __all__ = [
     "SABnzbdRequest",
     "Slot",
     "StatusResponse",
+    "VersionResponse",
 ]
