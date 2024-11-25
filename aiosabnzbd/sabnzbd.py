@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from dataclasses import dataclass
 import logging
 import socket
@@ -17,7 +18,7 @@ from .exceptions import (
     SABnzbdMissingAPIKeyError,
 )
 from .models import History, HistoryResponse
-from .models.base import SABnzbdRequest
+from .models.base import CombinedQueueHistory, SABnzbdRequest
 from .models.queue import Queue, QueueResponse
 from .models.status import StatusResponse, VersionResponse
 
@@ -139,6 +140,14 @@ class SABnzbdClient:
         )
 
         return VersionResponse.from_json(result).version
+
+    async def combined_queue_history(self) -> CombinedQueueHistory:
+        """Get the combined queue and history."""
+        queue, history = await asyncio.gather(
+            self.queue(),
+            self.history(),
+        )
+        return CombinedQueueHistory(queue=queue, history=history)
 
     async def close(self) -> None:
         """Close open client session."""
