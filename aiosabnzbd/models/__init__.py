@@ -6,8 +6,8 @@ from .status import StatusResponse
 
 __all__ = [
     "Queue",
-    "Slot",
     "QueueResponse",
-    "StatusResponse",
     "SABnzbdRequest",
+    "Slot",
+    "StatusResponse",
 ]

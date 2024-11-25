@@ -13,16 +13,16 @@ from .models.status import StatusResponse
 from .sabnzbd import SABnzbdClient
 
 __all__ = [
+    "Queue",
+    "QueueOperationCommand",
+    "QueueResponse",
+    "QueueStatus",
     "SABnzbdClient",
-    "SABnzbdError",
     "SABnzbdConnectionError",
     "SABnzbdConnectionTimeoutError",
+    "SABnzbdError",
     "SABnzbdInvalidAPIKeyError",
     "SABnzbdMissingAPIKeyError",
-    "QueueOperationCommand",
-    "QueueStatus",
-    "Queue",
     "Slot",
-    "QueueResponse",
     "StatusResponse",
 ]
