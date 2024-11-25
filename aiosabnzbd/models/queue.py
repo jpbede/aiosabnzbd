@@ -4,9 +4,7 @@ from dataclasses import dataclass, field
 
 from mashumaro.mixins.orjson import DataClassORJSONMixin
 
-from aiosabnzbd.const import QueueOperationCommand, QueueStatus
-
-from .base import SabnzbdRequest
+from aiosabnzbd.const import QueueStatus
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
@@ -78,25 +76,3 @@ class QueueResponse(DataClassORJSONMixin):
     """Queue API response."""
 
     queue: Queue
-
-
-@dataclass(kw_only=True)
-class QueueRequest(SabnzbdRequest):
-    """Request to get the latest queue data."""
-
-    @property
-    def query_params(self) -> dict[str, str]:
-        """Return the query parameters."""
-        return {"mode": "queue"}
-
-
-@dataclass(kw_only=True)
-class QueueOperationRequest(SabnzbdRequest):
-    """Request to perform a queue operation."""
-
-    mode: QueueOperationCommand
-
-    @property
-    def query_params(self) -> dict[str, str]:
-        """Return the query parameters."""
-        return {"mode": self.mode}

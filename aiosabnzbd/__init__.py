@@ -6,14 +6,8 @@ from .exceptions import (
     SabnzbdConnectionTimeoutError,
     SabnzbdError,
 )
-from .models import (
-    Queue,
-    QueueOperationRequest,
-    QueueRequest,
-    QueueResponse,
-    Slot,
-    StatusResponse,
-)
+from .models.queue import Queue, QueueResponse, Slot
+from .models.status import StatusResponse
 from .sabnzbd import Sabnzbd
 
 __all__ = [
@@ -26,7 +20,5 @@ __all__ = [
     "Queue",
     "Slot",
     "QueueResponse",
-    "QueueRequest",
-    "QueueOperationRequest",
     "StatusResponse",
 ]

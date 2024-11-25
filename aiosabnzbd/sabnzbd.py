@@ -16,12 +16,12 @@ from .exceptions import (
     SabnzbdInvalidAPIKeyError,
     SabnzbdMissingAPIKeyError,
 )
-from .models.queue import Queue, QueueOperationRequest, QueueRequest, QueueResponse
+from .models.base import SabnzbdRequest
+from .models.queue import Queue, QueueResponse
 from .models.status import StatusResponse
 
 if TYPE_CHECKING:
     from .const import QueueOperationCommand
-    from .models.base import SabnzbdRequest
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -100,7 +100,9 @@ class Sabnzbd:
     ) -> Queue:
         """Get current queue status."""
         result = await self._request(
-            QueueRequest(),
+            SabnzbdRequest(
+                mode="queue",
+            ),
         )
 
         return QueueResponse.from_json(result).queue
@@ -108,7 +110,7 @@ class Sabnzbd:
     async def operate_queue(self, *, command: QueueOperationCommand) -> StatusResponse:
         """Operate the queue."""
         result = await self._request(
-            QueueOperationRequest(mode=command),
+            SabnzbdRequest(mode=command),
         )
         return StatusResponse.from_json(result)
 
