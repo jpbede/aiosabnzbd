@@ -138,3 +138,19 @@ async def test_version(client: SABnzbdClient, responses: aioresponses) -> None:
     )
 
     assert await client.version() == "3.0.0"
+
+
+async def test_combined_queue_history(
+    client: SABnzbdClient, responses: aioresponses, snapshot: SnapshotAssertion
+) -> None:
+    """Test getting the queue and history."""
+    responses.get(
+        "http://localhost:8080/api?apikey=abc123&output=json&mode=queue",
+        body=load_fixture("queue.json"),
+    )
+    responses.get(
+        "http://localhost:8080/api?apikey=abc123&output=json&mode=history",
+        body=load_fixture("history.json"),
+    )
+
+    assert snapshot == await client.combined_queue_history()

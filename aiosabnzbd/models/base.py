@@ -2,6 +2,9 @@
 
 from dataclasses import dataclass
 
+from .history import History
+from .queue import Queue
+
 
 @dataclass(kw_only=True)
 class SABnzbdRequest:
@@ -23,3 +26,11 @@ class SABnzbdRequest:
             params["value"] = str(self.value)
 
         return params
+
+
+@dataclass(kw_only=True, frozen=True)
+class CombinedQueueHistory:
+    """Combined queue and history."""
+
+    queue: Queue
+    history: History
