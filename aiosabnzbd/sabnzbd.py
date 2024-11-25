@@ -114,6 +114,17 @@ class SABnzbdClient:
         )
         return StatusResponse.from_json(result)
 
+    async def set_speed_limit(self, *, percentage: int) -> StatusResponse:
+        """Set the speed limit."""
+        result = await self._request(
+            SABnzbdRequest(
+                mode="config",
+                name="speedlimit",
+                value=percentage,
+            ),
+        )
+        return StatusResponse.from_json(result)
+
     async def close(self) -> None:
         """Close open client session."""
         if self.session and self._close_session:

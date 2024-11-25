@@ -104,3 +104,15 @@ async def test_invalid_api_key(client: SABnzbdClient, responses: aioresponses) -
 
     with pytest.raises(SABnzbdInvalidAPIKeyError):
         await client.queue()
+
+
+async def test_set_speed_limit(client: SABnzbdClient, responses: aioresponses) -> None:
+    """Test setting speed limit."""
+    responses.get(
+        "http://localhost:8080/api?apikey=abc123&output=json&mode=config&name=speedlimit&value=50",
+        body='{"status": true}',
+    )
+
+    response = await client.set_speed_limit(percentage=50)
+
+    assert response == StatusResponse(status=True)
