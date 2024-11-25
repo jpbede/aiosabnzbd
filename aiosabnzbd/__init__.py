@@ -8,11 +8,14 @@ from .exceptions import (
     SABnzbdInvalidAPIKeyError,
     SABnzbdMissingAPIKeyError,
 )
+from .models import History, HistoryResponse
 from .models.queue import Queue, QueueResponse, Slot
 from .models.status import StatusResponse
 from .sabnzbd import SABnzbdClient
 
 __all__ = [
+    "History",
+    "HistoryResponse",
     "Queue",
     "QueueOperationCommand",
     "QueueResponse",

@@ -116,3 +116,15 @@ async def test_set_speed_limit(client: SABnzbdClient, responses: aioresponses) -
     response = await client.set_speed_limit(percentage=50)
 
     assert response == StatusResponse(status=True)
+
+
+async def test_history(
+    client: SABnzbdClient, responses: aioresponses, snapshot: SnapshotAssertion
+) -> None:
+    """Test getting the queue."""
+    responses.get(
+        "http://localhost:8080/api?apikey=abc123&output=json&mode=history",
+        body=load_fixture("history.json"),
+    )
+
+    assert snapshot == await client.history()
