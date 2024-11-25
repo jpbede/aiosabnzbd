@@ -30,31 +30,23 @@ _LOGGER = logging.getLogger(__name__)
 class SABnzbdClient:
     """SABnzbd API client."""
 
-    host: str
-    port: int
+    url: str
     api_key: str
     path: str = "/api"
     session: ClientSession | None = None
 
     _close_session: bool = False
 
-    def __post_init__(self) -> None:
-        """Initialize the SABnzbd class."""
-        self._build_url = URL.build(
-            scheme="http",
-            host=self.host,
-            port=self.port,
-            path=self.path,
-        )
-
     async def _request(self, request: SABnzbdRequest) -> str:
         """Execute a GET request against the API."""
+        url = URL(self.url).with_path(self.path)
+
         if self.session is None:
             self.session = ClientSession()
             self._close_session = True
 
         request_params = request.query_params
-        _LOGGER.debug("Doing request: GET %s %s", self._build_url, request_params)
+        _LOGGER.debug("Doing request: GET %s %s", url, request_params)
 
         params = {
             "output": "json",
@@ -64,7 +56,7 @@ class SABnzbdClient:
 
         try:
             async with self.session.get(
-                self._build_url,
+                url,
                 params=params,
             ) as response:
                 response.raise_for_status()
