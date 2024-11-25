@@ -26,7 +26,7 @@ async def test_json_request_without_session(
         body=load_fixture("queue.json"),
     )
 
-    async with SABnzbdClient(host="localhost", port=8080, api_key="ab123") as c:
+    async with SABnzbdClient(url="http://localhost:8080", api_key="ab123") as c:
         assert await c.queue() == snapshot
         assert c.session is not None
 

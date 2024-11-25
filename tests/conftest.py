@@ -22,8 +22,7 @@ async def client() -> AsyncGenerator[SABnzbdClient, None]:
     async with (
         aiohttp.ClientSession() as session,
         SABnzbdClient(
-            host="localhost",
-            port=8080,
+            url="http://localhost:8080",
             api_key="abc123",
             session=session,
         ) as sab_client,
