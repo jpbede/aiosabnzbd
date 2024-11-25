@@ -1,21 +1,21 @@
 """Exceptions for SABnzbd."""
 
 
-class SabnzbdError(Exception):
+class SABnzbdError(Exception):
     """Generic error occurred in SABnzbd package."""
 
 
-class SabnzbdConnectionError(SabnzbdError):
+class SABnzbdConnectionError(SABnzbdError):
     """Error occurred while communicating to the SABnzbd API."""
 
 
-class SabnzbdConnectionTimeoutError(SabnzbdError):
+class SABnzbdConnectionTimeoutError(SABnzbdError):
     """Timeout occurred while connecting to the SABnzbd API."""
 
 
-class SabnzbdInvalidAPIKeyError(SabnzbdError):
+class SABnzbdInvalidAPIKeyError(SABnzbdError):
     """Given API Key is invalid."""
 
 
-class SabnzbdMissingAPIKeyError(SabnzbdError):
+class SABnzbdMissingAPIKeyError(SABnzbdError):
     """API Key is missing."""

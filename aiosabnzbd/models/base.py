@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 
 @dataclass(kw_only=True)
-class SabnzbdRequest:
+class SABnzbdRequest:
     """Base request."""
 
     mode: str | None = None
