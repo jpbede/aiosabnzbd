@@ -48,8 +48,8 @@ class Queue(DataClassORJSONMixin):
         omit_none = True
 
     status: QueueStatus
-    speedlimit: str
-    speedlimit_absolut: str = field(metadata={"alias": "speedlimit_abs"})
+    speedlimit: int
+    speedlimit_absolut: float = field(metadata={"alias": "speedlimit_abs"})
     paused: bool
     noofslots_total: int
     noofslots: int
@@ -60,12 +60,12 @@ class Queue(DataClassORJSONMixin):
             serialization_strategy=HumanReadableAsTimeDelta(fmt="%H:%M:%S")
         )
     )
-    speed: str
-    kb_per_sec: str = field(metadata={"alias": "kbpersec"})
+    speed: float
+    kb_per_sec: float = field(metadata={"alias": "kbpersec"})
     size: float
     size_left: float = field(metadata={"alias": "sizeleft"})
-    megabyte: str = field(metadata={"alias": "mb"})
-    megabyte_left: str = field(metadata={"alias": "mbleft"})
+    megabyte: float = field(metadata={"alias": "mb"})
+    megabyte_left: float = field(metadata={"alias": "mbleft"})
     slots: list[Slot]
     diskspace1: float
     diskspace2: float
@@ -73,12 +73,12 @@ class Queue(DataClassORJSONMixin):
     diskspace_total2: float = field(metadata={"alias": "diskspacetotal2"})
     diskspace1_norm: float
     diskspace2_norm: float
-    have_warnings: str
-    pause_int: str
+    have_warnings: int
+    pause_int: int
     left_quota: float
     version: str
     finish: int
-    cache_article: str = field(metadata={"alias": "cache_art"})
+    cache_article: int = field(metadata={"alias": "cache_art"})
     cache_size: float
     finish_action: str = field(metadata={"alias": "finishaction"})
     paused_all: bool
