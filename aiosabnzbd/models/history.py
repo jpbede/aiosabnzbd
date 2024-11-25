@@ -2,7 +2,10 @@
 
 from dataclasses import dataclass
 
+from mashumaro.config import BaseConfig
 from mashumaro.mixins.orjson import DataClassORJSONMixin
+
+from aiosabnzbd.strategies import SABnzbdFileSize
 
 from .queue import Slot
 
@@ -11,10 +14,17 @@ from .queue import Slot
 class History(DataClassORJSONMixin):
     """Representation the history."""
 
-    total_size: str
-    month_size: str
-    week_size: str
-    day_size: str
+    class Config(BaseConfig):
+        """Mashumaro configuration."""
+
+        serialization_strategy = {float: SABnzbdFileSize()}  # noqa: RUF012
+        serialize_by_alias = True
+        omit_none = True
+
+    total_size: float
+    month_size: float
+    week_size: float
+    day_size: float
     slots: list[Slot]
     ppslots: int
     noofslots: int
