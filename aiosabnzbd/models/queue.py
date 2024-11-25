@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 
 from mashumaro import field_options
+from mashumaro.config import BaseConfig
 from mashumaro.mixins.orjson import DataClassORJSONMixin
 from mashumaro.types import SerializationStrategy
 
@@ -26,6 +27,41 @@ class HumanReadableAsTimeDelta(SerializationStrategy):
         """Deserialize a humanreadable string to a timedelta."""
         d = datetime.strptime(value, self.fmt)  # noqa: DTZ007
         return timedelta(hours=d.hour, minutes=d.minute, seconds=d.second)
+
+
+class SABnzbdFileSize(SerializationStrategy):
+    """Serialization strategy for filesize to humanreadable string."""
+
+    def serialize(self, value: float) -> str:
+        """Serialize a filesize to a humanreadable string."""
+        if value < 1.0:
+            return "0 B"
+        if value < 1024.0:
+            return f"{value:.2f} B"
+        if value < 1024.0 * 1024.0:
+            return f"{value / 1024.0:.2f} K"
+        if value < 1024.0 * 1024.0 * 1024.0:
+            return f"{value / (1024.0 * 1024.0):.2f} M"
+
+        return f"{value / (1024.0 * 1024.0 * 1024.0):.2f} T"
+
+    def deserialize(self, value: str) -> float:
+        """Deserialize a humanreadable string to a filesize."""
+        suffix = value[-1]
+        if suffix == "K":
+            multiplier = 1.0 / (1024.0 * 1024.0)
+        elif suffix == "M":
+            multiplier = 1.0 / 1024.0
+        elif suffix == "T":
+            multiplier = 1024.0
+        else:
+            multiplier = 1
+
+        try:
+            val = float(value.split(" ")[0])
+            return val * multiplier
+        except ValueError:
+            return 0.0
 
 
 @dataclass(frozen=True, kw_only=True, slots=True)
@@ -57,6 +93,13 @@ class Slot:
 class Queue(DataClassORJSONMixin):
     """Representation the queue."""
 
+    class Config(BaseConfig):
+        """Mashumaro configuration."""
+
+        serialization_strategy = {float: SABnzbdFileSize()}  # noqa: RUF012
+        serialize_by_alias = True
+        omit_none = True
+
     status: QueueStatus
     speedlimit: str
     speedlimit_absolut: str = field(metadata={"alias": "speedlimit_abs"})
@@ -72,27 +115,27 @@ class Queue(DataClassORJSONMixin):
     )
     speed: str
     kb_per_sec: str = field(metadata={"alias": "kbpersec"})
-    size: str
-    size_left: str = field(metadata={"alias": "sizeleft"})
+    size: float
+    size_left: float = field(metadata={"alias": "sizeleft"})
     megabyte: str = field(metadata={"alias": "mb"})
     megabyte_left: str = field(metadata={"alias": "mbleft"})
     slots: list[Slot]
-    diskspace1: str
-    diskspace2: str
-    diskspace_total1: str = field(metadata={"alias": "diskspacetotal1"})
-    diskspace_total2: str = field(metadata={"alias": "diskspacetotal2"})
-    diskspace1_norm: str
-    diskspace2_norm: str
+    diskspace1: float
+    diskspace2: float
+    diskspace_total1: float = field(metadata={"alias": "diskspacetotal1"})
+    diskspace_total2: float = field(metadata={"alias": "diskspacetotal2"})
+    diskspace1_norm: float
+    diskspace2_norm: float
     have_warnings: str
     pause_int: str
-    left_quota: str
+    left_quota: float
     version: str
     finish: int
     cache_article: str = field(metadata={"alias": "cache_art"})
-    cache_size: str
+    cache_size: float
     finish_action: str = field(metadata={"alias": "finishaction"})
     paused_all: bool
-    quota: str
+    quota: float
     have_quota: bool
 
 
