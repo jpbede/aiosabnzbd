@@ -42,7 +42,7 @@ mypy = "1.19.1"
 ruff = "0.14.9"
 syrupy = "4.9.1"
 yamllint = "1.37.1"
-aioresponses = "0.7.8"
+aioresponses = "0.7.9"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/jpbede/aiosabnzbd/issues"
